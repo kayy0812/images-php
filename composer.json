@@ -1,0 +1,16 @@
+{
+    "name": "kayy0812/girls-api",
+    "description": "Give me a beautiful girl <3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kayy0812\\GirlsApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kayy0812",
+            "email": "kayy0812.levanloc@gmail.com"
+        }
+    ]
+}
