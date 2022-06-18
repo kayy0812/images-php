@@ -1,8 +1,8 @@
 <?php
 require '../../../vendor/autoload.php';
 
-use Kayy0812\GirlsApi\Database;
-use Kayy0812\GirlsApi\Main;
+use Kayy0812\ImagesAPI\Database;
+use Kayy0812\ImagesAPI\Main;
 
 require '../../../config.php';
 
@@ -11,8 +11,7 @@ $db = new Database();
 $conn = $db->connect();
 
 $name = $_POST['name'];
-$birth = $_POST['year_of_birth'];
-$sql = 'INSERT INTO girls (girl_id, name, year_of_birth) VALUES ("' . rand(111111, 999999) . '", "' . $name  . '", "' . $birth  . '")';
+$sql = 'INSERT INTO groups (groups, name) VALUES ("' . rand(111111, 999999) . '", "' . $name  . '")';
 $conn->query($sql);
 header('Location: ' . $_SERVER['HTTP_REFERER']);
 ?>

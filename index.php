@@ -1,8 +1,8 @@
 <?php 
 require 'vendor/autoload.php';
 
-use Kayy0812\GirlsApi\Database;
-use Kayy0812\GirlsApi\Main;
+use Kayy0812\ImagesAPI\Database;
+use Kayy0812\ImagesAPI\Main;
 
 require './config.php';
 

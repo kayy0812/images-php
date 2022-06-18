@@ -1,8 +1,8 @@
 <?php
 require '../../../vendor/autoload.php';
 
-use Kayy0812\GirlsApi\Database;
-use Kayy0812\GirlsApi\Main;
+use Kayy0812\ImagesAPI\Database;
+use Kayy0812\ImagesAPI\Main;
 
 require '../../../config.php';
 
@@ -10,13 +10,13 @@ $main = new Main();
 $db = new Database();
 $conn = $db->connect();
 
-$girl_id = $_POST['girl_id'];
+$groupId = $_POST['groupId'];
 
-$sql = 'SELECT count(id) AS total FROM images WHERE girl_id = "' . $girl_id . '"';
+$sql = 'SELECT count(id) AS total FROM images WHERE groupId = "' . $groupId . '"';
 $images_count = $conn->query($sql)->fetch(PDO::FETCH_ASSOC)['total'];
 
 if ($images_count <= 0) {
-    $sql = 'DELETE FROM girls WHERE girl_id = "' . $girl_id . '"';
+    $sql = 'DELETE FROM groups WHERE groupId = "' . $groupId . '"';
     $conn->query($sql);
     header('Location: ' . $_SERVER['HTTP_REFERER']);
 } else {

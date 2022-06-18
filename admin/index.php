@@ -3,8 +3,8 @@ session_start();
 // session_destroy();
 require '../vendor/autoload.php';
 
-use Kayy0812\GirlsApi\Database;
-use Kayy0812\GirlsApi\Main;
+use Kayy0812\ImagesAPI\Database;
+use Kayy0812\ImagesAPI\Main;
 
 require '../config.php';
 
@@ -38,7 +38,7 @@ $conn = $db->connect();
 
         </header>
         <div class="container">
-            <a href="./girls.php">Nhấp vào để chuyển hướng ...</a>
+            <a href="./groups.php">Nhấp vào để chuyển hướng ...</a>
         </div>
         <footer class="footer">
             

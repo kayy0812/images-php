@@ -1,6 +1,6 @@
 <?php
 
-namespace Kayy0812\GirlsApi;
+namespace Kayy0812\ImagesAPI;
 
 use PDO;
 use PDOException;

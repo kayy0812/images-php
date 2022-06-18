@@ -3,8 +3,8 @@ session_start();
 // session_destroy();
 require '../vendor/autoload.php';
 
-use Kayy0812\GirlsApi\Database;
-use Kayy0812\GirlsApi\Main;
+use Kayy0812\ImagesAPI\Database;
+use Kayy0812\ImagesAPI\Main;
 
 require '../config.php';
 
@@ -38,29 +38,22 @@ $conn = $db->connect();
                     <li class="header-item">
                         <a href="./" class="header-link">Home</a>
                     </li>
-                    <li class="header-item">
-                        <a href="./quotes.php" class="header-link">Quotes</a>
-                    </li>
                 </ul>
             </header>
         </div>
         <div class="container">
             <div class="grid">
                 <h1 class="general-title">Nhập thông tin để thêm!</h1>
-                <form action="./api/girl/create.php" method="POST">
+                <form action="./api/group/create.php" method="POST">
                     <div class="table-data">
                         <table class="table-data__list">
                             <tr class="table-data__list-wrapper">
                                 <th class="table-data__list-head">Tên</th>
-                                <th class="table-data__list-head">Năm sinh</th>
                                 <th class="table-data__list-head">___</th>
                             </tr>
                             <tr>
                                 <td class="table-data__body">
                                     <input type="text" name="name" placeholder="Nhập tên" class="table-data__body-input" required>
-                                </td>
-                                <td class="table-data__body">
-                                    <input type="text" name="year_of_birth" placeholder="Nhập năm sinh" class="table-data__body-input" required>
                                 </td>
                                 <td class="table-data__body">
                                     <button class="btn btn--check">
@@ -77,12 +70,11 @@ $conn = $db->connect();
                             <th class="table-data__list-head">STT</th>
                             <th class="table-data__list-head">ID</th>
                             <th class="table-data__list-head">Tên</th>
-                            <th class="table-data__list-head">Năm sinh</th>
                             <th class="table-data__list-head">___</th>
                         </tr>
                         <?php
                         $current = isset($_GET['page']) ? $_GET['page'] : 1;
-                        $sql = 'SELECT count(id) AS total FROM girls';
+                        $sql = 'SELECT count(id) AS total FROM groups';
                         $records = $conn->query($sql)->fetch(PDO::FETCH_ASSOC)['total'];
                         $limit = 10;
     
@@ -95,19 +87,19 @@ $conn = $db->connect();
                         if ($current > $total) $current = $total;
     
                         $start = ($current - 1) * $limit;
-                        $sql = 'SELECT * FROM girls LIMIT ' . $start . ', ' .$limit. '';
+                        $sql = 'SELECT * FROM groups LIMIT ' . $start . ', ' .$limit. '';
                         $publishers = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($publishers as $index => $value) {
+                            $number = $start + ($index + 1);
                             echo '<tr>
-                                    <td class="table-data__body">' .$start + ($index + 1). '</td>
-                                    <td class="table-data__body">' .$value['girl_id']. '</td>
+                                    <td class="table-data__body">' .$number. '</td>
+                                    <td class="table-data__body">' .$value['groupId']. '</td>
                                     <td class="table-data__body">' .$value['name']. '</td>
-                                    <td class="table-data__body">' .$value['year_of_birth']. '</td>
                                     <td class="table-data__body">
-                                        <a href="./images.php?girl_id='. $value['girl_id'] .'" class="table-data__body-manager">Quản lý</a>
+                                        <a href="./images.php?groupId='. $value['groupId'] .'" class="table-data__body-manager">Quản lý</a>
                                         <div class="table-data__body-actions">
-                                            <form action="./api/girl/delete.php" method="POST">
-                                                <input type="text" name="girl_id" value="' . $value['girl_id']  . '" hidden>
+                                            <form action="./api/group/delete.php" method="POST">
+                                                <input type="text" name="groupId" value="' . $value['groupId']  . '" hidden>
                                                 <button title="Nhấp một cái là xoá liền ấy nha bro!" class="btn btn--right-6 table-data__body-delete">
                                                     <i class="ti-trash"></i>
                                                 </button>

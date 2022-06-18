@@ -1,7 +1,7 @@
 <?php 
-namespace Kayy0812\GirlsApi;
+namespace Kayy0812\ImagesAPI;
 
-use Kayy0812\GirlsApi\Database;
+use Kayy0812\ImagesAPI\Database;
 
 class Main {
     public function getStatusCodeMessage($status){

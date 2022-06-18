@@ -3,8 +3,8 @@ session_start();
 // session_destroy();
 require '../vendor/autoload.php';
 
-use Kayy0812\GirlsApi\Database;
-use Kayy0812\GirlsApi\Main;
+use Kayy0812\ImagesAPI\Database;
+use Kayy0812\ImagesAPI\Main;
 
 require '../config.php';
 
@@ -31,9 +31,9 @@ $conn = $db->connect();
     <?php if (!isset($_SESSION['user'])) {
         echo '<script> alert("Chưa đăng nhập, đang chuyển hướng ..."); window.location.href = "./" </script>';
     } else { 
-        $girl_id = isset($_GET['girl_id']) ? $_GET['girl_id'] : false;
-        if (!$girl_id) {
-            echo '<script> alert("Có lỗi xảy ra"); window.location.href = "./girls.php" </script>';
+        $groupId = isset($_GET['groupId']) ? $_GET['groupId'] : false;
+        if (!$groupId) {
+            echo '<script> alert("Có lỗi xảy ra"); window.location.href = "./groups.php" </script>';
         }
         ?>
         <div class="grid">
@@ -43,12 +43,6 @@ $conn = $db->connect();
                     <li class="header-item">
                         <a href="./" class="header-link">Home</a>
                     </li>
-                    <li class="header-item">
-                        <a href="./quotes.php" class="header-link">Quotes</a>
-                    </li>
-                    <li class="header-item header-item--active">
-                        <a href="./girls.php" class="header-link">Girls</a>
-                    </li>
                 </ul>
             </header>
         </div>
@@ -57,15 +51,15 @@ $conn = $db->connect();
                 <div class="general">
                     <?php
                     $sql = 'SELECT name 
-                    FROM girls 
-                    WHERE girl_id="' . $girl_id . '"';
+                    FROM groups 
+                    WHERE groupId="' . $groupId . '"';
                     $name = $conn->query($sql)->fetch(PDO::FETCH_ASSOC)['name'];
                     echo '<h1 class="general-title">Bộ sưu tập: '. $name .'</h1>';
                     ?>
                     <div class="general-wrapper">
-                        <!-- ./api/girl/upload.php -->
+                        <!-- ./api/groups/upload.php -->
                         <form action="./api/images/upload.php" method="POST">
-                            <input class="general-input" type="text" name="girl_id" value="<?php echo $girl_id ?>" hidden>
+                            <input class="general-input" type="text" name="groupId" value="<?php echo $groupId ?>" hidden>
                             <input class="general-input" type="text" name="link-text" placeholder="Nhập link ảnh" autocomplete="off" required>
                             <input class="general-upload" name="upload-image" type="submit" value="Up!">
                         </form>
@@ -81,7 +75,7 @@ $conn = $db->connect();
                         <?php
                         $sql = 'SELECT count(id) AS total 
                                 FROM images 
-                                WHERE girl_id="' . $girl_id . '"';
+                                WHERE groupId="' . $groupId . '"';
                         $records = $conn->query($sql)->fetch(PDO::FETCH_ASSOC)['total'];
                         $limit = 10;
 
@@ -101,17 +95,18 @@ $conn = $db->connect();
         
                             $start = ($current - 1) * $limit;
                             $sql = 'SELECT * 
-                                    FROM images, girls 
-                                    WHERE images.girl_id = girls.girl_id AND girls.girl_id = "' . $girl_id . '" 
+                                    FROM images, groups 
+                                    WHERE images.groupId = groups.groupId AND groups.groupId = "' . $groupId . '" 
                                     LIMIT ' . $start . ', ' .$limit. '';
                             $publishers = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                             foreach ($publishers as $index => $value) {
+                                $number = $start + ($index + 1);
                                 echo '<tr>
-                                        <td class="table-data__body">' .$start + ($index + 1). '</td>
+                                    <td class="table-data__body">' .$number. '</td>
                                         <td class="table-data__body">
                                             
                                             <form action="./api/images/update.php" method="POST">
-                                                <input name="girl_id" type="text" value="' . $girl_id . '" hidden>
+                                                <input name="groupId" type="text" value="' . $groupId . '" hidden>
                                                 <input name="link-text-old" type="text" value="' . $value['url'] . '" hidden>
                                                 <input name="link-text" class="table-data__body-input" type="text" value="' .$value['url']. '" placeholder="Nhập đường dẫn mới ..." autocomplete="off" required disabled>
                                                 <button class="btn btn--right-6 table-data__body-check table-data__body-actions--disabled">
@@ -126,7 +121,7 @@ $conn = $db->connect();
                                                     <i class="ti-close"></i>
                                                 </button>
                                                 <form action="./api/images/delete.php" method="POST">
-                                                    <input type="text" name="girl_id" value="' . $girl_id  . '" hidden>
+                                                    <input type="text" name="groupId" value="' . $groupId  . '" hidden>
                                                     <input type="text" name="link-text" value="' . $value['url']  . '" hidden>
                                                     <button title="Nhấp một cái là xoá liền ấy nha bro!" class="btn btn--right-6 table-data__body-delete">
                                                         <i class="ti-trash"></i>
